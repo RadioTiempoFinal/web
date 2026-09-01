@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiempo Final Multimedios - PWA</title>
+    
+    <!-- Meta etiquetas para PWA (Instalación nativa en móviles y escritorio) -->
+    <meta name="theme-color" content="#090514">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="data:application/json;base64,ewogICJhbG9uZyI6ICJzaG9ydCIsCiAgIm5hbWUiOiAiVGllbXBvIEZpbmFsIE11bHRpbWVkaW9zIiwKICAic2hvcnRfbmFtZSI6ICJUaWVtcG9GaW5hbCIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMDkwNTE0IiwKICAidGhlbWVfY29sb3IiOiAiIzA5MDUxNCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vY2RuLWljb25zLXBuZy5mbGF0aWNvbi5jb20vNTEyLzI2ODQvMjY4NDIxNi5wbmciLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSBtYXJrYWJsZSI6CiAgICB9CiAgXQp9">
+
+    <!-- Tailwind CSS v3 Framework Estable (Soluciona el fallo de carga visual de la captura) -->
+    <script src="https://tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            bg: '#090514',
+                            card: 'rgba(15, 10, 30, 0.65)',
+                            border: 'rgba(217, 70, 239, 0.2)',
+                            primary: '#d946ef',
+                            secondary: '#6366f1'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Video.js CSS y JS Oficiales -->
+    <link href="https://zencdn.net" rel="stylesheet" />
+    <script src="https://zencdn.net"></script>
+
+    <style>
+        /* Fondo Animado de Gradiente Neon Ciberpunk */
+        @keyframes gradientBg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .animated-bg {
+            background: linear-gradient(-135deg, #090514, #130a24, #260c42, #020617);
+            background-size: 300% 300%;
+            animation: gradientBg 12s ease-in-out infinite;
+        }
+        
+        /* Estilos Personalizados del Reproductor */
+        .video-js {
+            background-color: rgba(5, 2, 10, 0.95);
+            border-radius: 1rem;
+            overflow: hidden;
+            width: 100% !important;
+            height: 100% !important;
+        }
+        .vjs-big-play-button {
+            background: linear-gradient(135deg, #d946ef, #6366f1) !important;
+            border: none !important;
+            border-radius: 50% !important;
+            width: 3em !important;
+            height: 3em !important;
+            line-height: 3em !important;
+            margin-left: -1.5em !important;
+            margin-top: -1.5em !important;
+            box-shadow: 0 8px 20px rgba(217, 70, 239, 0.4) !important;
+        }
+        .fade-out {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="animated-bg text-slate-100 min-h-screen flex flex-col justify-between font-sans antialiased">
+
+    <!-- 🌟 PANTALLA DE CARGA (SPLASH SCREEN) -->
+    <div id="splash-screen" class="fixed inset-0 z-50 bg-[#090514] flex flex-col justify-center items-center gap-4 transition-opacity duration-500">
+        <div class="relative flex justify-center items-center">
+            <div class="absolute w-20 h-20 bg-fuchsia-500/20 rounded-full animate-ping"></div>
+            <div class="bg-gradient-to-tr from-fuchsia-600 to-indigo-600 p-5 rounded-2xl shadow-xl z-10">
+                <i data-lucide="radio" class="w-10 h-10 text-white"></i>
+            </div>
+        </div>
+        <div class="text-center mt-2">
+            <h2 class="text-xl font-black tracking-widest text-white">TIEMPO FINAL</h2>
+            <p class="text-[10px] text-indigo-400 font-bold uppercase tracking-widest">SISTEMA MULTIMEDIOS</p>
+        </div>
+    </div>
+
+    <!-- 📱 INTERFAZ PRINCIPAL -->
+    <div class="w-full max-w-6xl mx-auto px-4 py-6 flex-grow flex flex-col gap-6 justify-center">
+        
+        <!-- HEADER -->
+        <header class="w-full flex flex-col sm:flex-row justify-between items-center bg-slate-950/60 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-xl gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-gradient-to-tr from-fuchsia-600 to-indigo-600 p-2 rounded-xl">
+                    <i data-lucide="radio" class="w-6 h-6 text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-black tracking-wider text-white">TIEMPO FINAL</h1>
+                    <p class="text-[10px] text-fuchsia-400 font-bold tracking-widest uppercase flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span> TRANSMISIÓN EN VIVO
+                    </p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <!-- Botón de Instalación PWA Directo -->
+                <button id="pwa-install-btn" class="hidden bg-gradient-to-r from-fuchsia-600 to-indigo-600 hover:from-fuchsia-500 hover:to-indigo-500 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-lg flex items-center gap-2">
+                    <i data-lucide="download" class="w-3.5 h-3.5"></i> Instalar App
+                </button>
+                <!-- Reloj Digital -->
+                <div class="flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-xl border border-white/5">
+                    <i data-lucide="clock" class="w-3.5 h-3.5 text-indigo-400"></i>
+                    <span id="digital-clock" class="font-mono text-base font-bold text-indigo-300">00:00:00</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENIDO: REPRODUCTOR + PARRILLA DE CANALES INTERACTIVA -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+            
+            <!-- PANEL REPRODUCTOR (Ocupa 2 Columnas) -->
+            <main class="lg:col-span-2 bg-slate-950/40 backdrop-blur-md border border-white/10 p-5 rounded-2xl shadow-2xl flex flex-col gap-4">
+                <div class="flex justify-between items-center border-b border-white/5 pb-2">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-100" id="player-channel-title">Tevevida (Señal TV)</h2>
+                        <p class="text-xs text-slate-400" id="player-channel-desc">Transmisión de televisión digital en vivo.</p>
+                    </div>
+                    <span id="media-badge" class="bg-fuchsia-500/20 border border-fuchsia-500/40 text-fuchsia-300 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">Video Live</span>
+                </div>
+
+                <!-- Contenedor Responsivo del Video -->
+                <div class="w-full aspect-video rounded-xl overflow-hidden bg-black border border-white/5 relative">
+                    <video id="universal-player" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" poster="https://unsplash.com">
+                        <source src="https://mux.dev" type="application/x-mpegURL" />
+                    </video>
+                </div>
+            </main>
+
+            <!-- 📻 PARRILLA DE CANALES INTERACTIVA (Ocupa 1 Columna) -->
+            <aside class="bg-slate-950/50 backdrop-blur-md border border-white/10 p-5 rounded-2xl shadow-2xl flex flex-col gap-4">
+                <div>
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <i data-lucide="layers" class="w-4 h-4 text-indigo-400"></i> Parrilla de Canales
+                    </h3>
+                    <p class="text-xs text-slate-400">Selecciona la señal multimedia que deseas reproducir</p>
+                </div>
+
+                <!-- Lista de botones de Canales -->
+                <div class="flex flex-col gap-2.5 overflow-y-auto max-h-[350px] pr-1" id="channels-container">
+                    <!-- Los canales se renderizan mediante JavaScript dinámicamente -->
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Script de Iconos Lucide -->
+    <script src="https://unpkg.com"></script>
+    
+    <script>
+        // 1. DATA DE LOS CANALES (Configuración centralizada de tus transmisiones)
+        const channels = [
+            {
+                id: 1,
+                name: "Tevevida (Señal TV)",
+                desc: "Transmisión de televisión digital en vivo.",
+                type: "video",
+                badge: "Video Live",
+                src: "https://mux.dev", // Reemplaza por tu URL de streamlock
+                icon: "tv"
+            },
+            {
+                id: 2,
+                name: "Radio Tiempo Final",
+                desc: "Emisión radial con la mejor programación cristiana.",
+                type: "audio",
+                badge: "Audio Live",
+                src: "https://cloudfront.net", // Reemplaza por tu streaming MP3/AAC
+                icon: "mic"
+            },
+            {
+                id: 3,
+                name: "Canal Alternativo",
+                desc: "Eventos especiales y transmisiones secundarias.",
+                type: "video",
+                badge: "Event Live",
+                src: "https://longtailvideo.com",
+                icon: "video"
+            }
+];// Inicializar Video.js de forma global y seguraconst player = videojs('universal-player', {responsive: true,fluid: true});// 2. RENDERIZADO E INTERACCIÓN DE LA PARRILLAconst container = document.getElementById('channels-container');const titleEl = document.getElementById('player-channel-title');const descEl = document.getElementById('player-channel-desc');const badgeEl = document.getElementById('media-badge');function renderChannels(activeId) {container.innerHTML = "";channels.forEach(ch => {const isActive = ch.id === activeId;const btn = document.createElement('button');btn.className = w-full flex items-center gap-3 p-3 rounded-xl border text-left transition duration-200 ${ isActive  ? 'bg-gradient-to-r from-fuchsia-600/30 to-indigo-600/20 border-fuchsia-500 text-white shadow-lg'  : 'bg-white/5 border-white/5 text-slate-300 hover:bg-white/10 hover:border-white/10' };btn.innerHTML = <div class="p-2 rounded-lg ${isActive ? 'bg-fuchsia-500 text-white' : 'bg-white/5 text-slate-400'}"> <i data-lucide="${ch.icon}" class="w-4 h-4"></i> </div> <div class="flex-grow min-w-0"> <div class="flex justify-between items-center gap-2"> <span class="font-bold text-xs truncate">${ch.name}</span> <span class="text-[8px] px-1.5 py-0.5 rounded-full border ${ isActive ? 'border-fuchsia-400/40 text-fuchsia-300' : 'border-slate-500/30 text-slate-400' }">${ch.badge}</span> </div> <p class="text-[10px] text-slate-400 truncate mt-0.5">${ch.desc}</p> </div>;btn.onclick = () => switchChannel(ch);container.appendChild(btn);});lucide.createIcons();}function switchChannel(channel) {titleEl.textContent = channel.name;descEl.textContent = channel.desc;badgeEl.textContent = channel.badge;// Cambiar dinámicamente la fuente en el reproductor de Video.jsplayer.src({ src: channel.src, type: channel.type === 'video' ? 'application/x-mpegURL' : 'audio/mpeg' });player.play().catch(err => console.log("Auto-play prevenido por el navegador."));renderChannels(channel.id);}// 3. LOGICA DEL RELOJ DIGITAL Y SPLASH SCREENfunction updateClock() {const clock = document.getElementById('digital-clock');if(clock) {const now = new Date();clock.textContent = now.toTimeString().split(' ')[0];}}setInterval(updateClock, 1000);updateClock();window.addEventListener('DOMContentLoaded', () => {lucide.createIcons();renderChannels(1); // Carga inicial canal 1setTimeout(() => {const splash = document.getElementById('splash-screen');if(splash) splash.classList.add('fade-out');}, 1500);});// 4. CONTROLADOR NATIVO SERVICE WORKER PWA (Ejecución offline y caché básico)if ('serviceWorker' in navigator) {window.addEventListener('load', () => {// Generamos un script de Service Worker virtual in-line para evitar archivos separados externos en entornos limitadosconst swCode = const CACHE_NAME = 'tiempo-final-v1'; const assets = ['/', '/index.html']; self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(assets))); }); self.addEventListener('fetch', e => { e.respondWith(caches.match(e.request).then(res => res || fetch(e.request))); });;const blob = new Blob([swCode], { type: 'application/javascript' });const swUrl = URL.createObjectURL(blob);navigator.serviceWorker.register(swUrl).then(() => console.log('PWA Service Worker Activo de forma nativa.')).catch(err => console.error('Error al registrar PWA', err));});}// Manejador del botón de instalación de la aplicación en el dispositivolet deferredPrompt;const installBtn = document.getElementById('pwa-install-btn');window.addEventListener('beforeinstallprompt', (e) => {e.preventDefault();deferredPrompt = e;if(installBtn) installBtn.classList.remove('hidden');});if(installBtn) {installBtn.addEventListener('click', async () => {if (deferredPrompt) {deferredPrompt.prompt();const { outcome } = await deferredPrompt.userChoice;if (outcome === 'accepted') installBtn.classList.add('hidden');deferredPrompt = null;}});}
